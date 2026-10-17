@@ -1,0 +1,43 @@
+# ─────────────────────────────────────────────────────────────────────────────
+#  EEE703128 — Bài kiểm tra số 2 · thông tin dự án
+# ─────────────────────────────────────────────────────────────────────────────
+project:
+  title:        "I01 — Bộ chia số nguyên 8-bit cho 4-bit theo thuật toán khôi phục"
+  author:       "Lê Anh Quân (24100556)"
+  discord:      ""
+  description:  "Bộ chia số nguyên 8-bit cho 4-bit theo thuật toán khôi phục tuần tự"
+  language:     "Verilog"
+  clock_hz:     10000000
+
+  tiles: "1x1"
+  top_module: "tt_um_eee703128_24100556"
+
+  source_files:
+    - "project.v"
+
+  ui[0]: "dividend_0"
+  ui[1]: "dividend_1"
+  ui[2]: "dividend_2"
+  ui[3]: "dividend_3"
+  ui[4]: "dividend_4"
+  ui[5]: "dividend_5"
+  ui[6]: "dividend_6"
+  ui[7]: "dividend_7"
+
+  uo[0]: "quotient_0"
+  uo[1]: "quotient_1"
+  uo[2]: "quotient_2"
+  uo[3]: "quotient_3"
+  uo[4]: "quotient_4"
+  uo[5]: "quotient_5"
+  uo[6]: "quotient_6"
+  uo[7]: "quotient_7"
+
+  uio[0]: "divisor_0"
+  uio[1]: "divisor_1"
+  uio[2]: "divisor_2"
+  uio[3]: "divisor_3"
+  uio[4]: "start"
+  uio[5]: ""
+  uio[6]: ""
+  uio[7]: ""
