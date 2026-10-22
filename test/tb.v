@@ -1,4 +1,3 @@
-
 `default_nettype none
 `timescale 1ns / 1ps
 
@@ -90,14 +89,14 @@ module tb;
 
         $display("=== KET QUA: %0d ca, %0d sai ===",
                  so_ca, so_sai);
-        if (so_sai == 0)
+        if (so_sai == 0) begin
             $display("TAT CA CA KIEM THU DEU DAT");
-        else
+            #20 $finish;
+        end else begin
             $display("CAN KIEM TRA LAI RTL");
-
-        #20 $finish;
+            $fatal(1, "Co %0d ca sai", so_sai);
+        end
     end
 endmodule
 
 `default_nettype wire
-
