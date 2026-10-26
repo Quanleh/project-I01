@@ -24,10 +24,21 @@ jobs:
       - name: Cài LibreLane
         run: python3 -m pip install --upgrade librelane
 
-      - name: Chạy LibreLane (Docker) để sinh GDS
+      - name: Ghi phiên bản công cụ
+        run: |
+          python3 -m pip show librelane | head -3 | tee versions.txt
+          date -u | tee -a versions.txt
+
+      - name: Chạy LibreLane cho bộ chia I01
         shell: bash
         run: |
           script -qefc "python3 -m librelane --dockerized librelane/config.json" /dev/null | tee librelane.log
+
+      - name: Chạy LibreLane cho bộ nhân đối chứng
+        continue-on-error: true
+        shell: bash
+        run: |
+          script -qefc "python3 -m librelane --dockerized librelane/config_mul.json" /dev/null | tee librelane_mul.log
 
       - name: Liệt kê file GDS
         if: always()
@@ -40,6 +51,7 @@ jobs:
           name: librelane-results
           path: |
             librelane/runs
-            runs
+            versions.txt
             librelane.log
+            librelane_mul.log
           if-no-files-found: ignore

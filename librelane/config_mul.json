@@ -1,0 +1,10 @@
+{
+  "DESIGN_NAME": "mul8x8_seq",
+  "VERILOG_FILES": ["dir::ref/mul8x8_seq.v"],
+  "CLOCK_PORT": "clk",
+  "CLOCK_PERIOD": 10,
+  "PDK": "sky130A",
+  "FP_SIZING": "relative",
+  "FP_CORE_UTIL": 40,
+  "PL_TARGET_DENSITY_PCT": 45
+}
