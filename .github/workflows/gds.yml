@@ -27,7 +27,7 @@ jobs:
       - name: Chạy LibreLane (Docker) để sinh GDS
         shell: bash
         run: |
-          python3 -m librelane --dockerized librelane/config.json 2>&1 | tee librelane.log
+          script -qefc "python3 -m librelane --dockerized librelane/config.json" /dev/null | tee librelane.log
 
       - name: Liệt kê file GDS
         if: always()
