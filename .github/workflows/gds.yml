@@ -3,43 +3,43 @@ name: gds
 on:
   push:
     branches: [main]
-  pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
-  testbench:
+  librelane:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - name: Lấy mã nguồn
         uses: actions/checkout@v4
 
-      - name: Cài iverilog và make
+      - name: Cài Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Cài LibreLane
+        run: python3 -m pip install --upgrade librelane
+
+      - name: Chạy LibreLane (Docker) để sinh GDS
+        shell: bash
         run: |
-          sudo apt-get update
-          sudo apt-get install -y iverilog make
-          iverilog -V | head -1
+          python3 -m librelane --dockerized librelane/config.json 2>&1 | tee librelane.log
 
-      - name: Biên dịch
-        run: iverilog -g2012 -Wall -o tb.out test/tb.v src/project.v
+      - name: Liệt kê file GDS
+        if: always()
+        run: find . -name '*.gds' -not -path './.git/*' || true
 
-      - name: Chạy testbench
-        run: |
-          vvp tb.out | tee sim.log
-          if grep -q '^FAIL' sim.log; then
-            echo "::error::Có ca kiểm thử FAIL"
-            exit 1
-          fi
-          if ! grep -q 'TAT CA CA KIEM THU DEU DAT' sim.log; then
-            echo "::error::Không thấy dòng 'TAT CA CA KIEM THU DEU DAT'"
-            exit 1
-          fi
-
-      - name: Lưu log và dạng sóng
+      - name: Lưu kết quả
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: sim-results
+          name: librelane-results
           path: |
-            sim.log
-            tb.vcd
+            librelane/runs
+            runs
+            librelane.log
           if-no-files-found: ignore

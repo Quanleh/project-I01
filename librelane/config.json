@@ -1,0 +1,10 @@
+{
+  "DESIGN_NAME": "tt_um_eee703128_24100556",
+  "VERILOG_FILES": ["dir::../src/project.v"],
+  "CLOCK_PORT": "clk",
+  "CLOCK_PERIOD": 10,
+  "PDK": "sky130A",
+  "FP_SIZING": "relative",
+  "FP_CORE_UTIL": 40,
+  "PL_TARGET_DENSITY_PCT": 45
+}

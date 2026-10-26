@@ -1,0 +1,45 @@
+name: sim
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  testbench:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Lấy mã nguồn
+        uses: actions/checkout@v4
+
+      - name: Cài iverilog và make
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y iverilog make
+          iverilog -V | head -1
+
+      - name: Biên dịch
+        run: iverilog -g2012 -Wall -o tb.out test/tb.v src/project.v
+
+      - name: Chạy testbench
+        run: |
+          vvp tb.out | tee sim.log
+          if grep -q '^FAIL' sim.log; then
+            echo "::error::Có ca kiểm thử FAIL"
+            exit 1
+          fi
+          if ! grep -q 'TAT CA CA KIEM THU DEU DAT' sim.log; then
+            echo "::error::Không thấy dòng 'TAT CA CA KIEM THU DEU DAT'"
+            exit 1
+          fi
+
+      - name: Lưu log và dạng sóng
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: sim-results
+          path: |
+            sim.log
+            tb.vcd
+          if-no-files-found: ignore

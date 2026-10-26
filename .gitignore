@@ -1,2 +1,6 @@
 tb.out
 *.vcd
+librelane/runs/
+running/
+runs/
+librelane.log
